@@ -34,10 +34,10 @@ var pauseIconData []byte
 var liveReloadIconData []byte
 
 var (
-	Default    = Icon{Data: defaultIconData}
-	Crash      = Icon{Data: crashIconData}
-	Pause      = Icon{Data: pauseIconData}
-	LiveReload = Icon{Data: liveReloadIconData}
+	Default    = Icon{Data: defaultIconData, IsTemplate: true}
+	Crash      = Icon{Data: crashIconData, IsTemplate: true}
+	Pause      = Icon{Data: pauseIconData, IsTemplate: true}
+	LiveReload = Icon{Data: liveReloadIconData, IsTemplate: true}
 )
 
 //////////////////////////////////////////////
@@ -69,7 +69,6 @@ func LoadCustomStatusIcons(configDir string) error {
 		}
 		return fmt.Errorf("os.ReadDir: %v", err)
 	}
-
 	targets := []struct {
 		prefix string
 		icon   *Icon
@@ -134,7 +133,7 @@ func CreateDefaultStatusIconsDirIfNotExists(configDir string) error {
 		if err != nil {
 			return fmt.Errorf("failed to create folder: %v", err)
 		}
-		names := []string{"default.ico", "crash.ico", "pause.ico", "live-reload.ico"}
+		names := []string{"defaultTemplate.ico", "crashTemplate.ico", "pauseTemplate.ico", "live-reloadTemplate.ico"}
 		data := [][]byte{defaultIconData, crashIconData, pauseIconData, liveReloadIconData}
 		for i, name := range names {
 			path := filepath.Join(customIconsPath, name)
