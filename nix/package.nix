@@ -2,10 +2,6 @@
   lib,
   buildGoModule,
   makeWrapper,
-  libayatana-appindicator,
-  gtk3,
-  stdenv,
-  pkg-config,
   self ? { },
   ...
 }:
@@ -16,7 +12,7 @@ buildGoModule (finalAttrs: {
 
   src = lib.cleanSource ./..;
 
-  vendorHash = "sha256-X4O+6Vmei6Y/8ARLCt2MJpQT+GZyLh333R5SjegeMqc=";
+  vendorHash = "sha256-m+BFhpHzp8QBSoiD+mHEBryeHKhQEhO9LpXhbUTuQW4=";
 
   flags = [ "-trimpath" ];
 
@@ -28,14 +24,8 @@ buildGoModule (finalAttrs: {
     "-X main.buildDate=unknown"
   ];
 
-  nativeBuildInputs = lib.optional stdenv.hostPlatform.isLinux pkg-config;
-
   buildInputs = [
     makeWrapper
-  ]
-  ++ lib.optionals stdenv.hostPlatform.isLinux [
-    libayatana-appindicator
-    gtk3
   ];
 
   postInstall = ''

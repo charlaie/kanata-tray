@@ -9,7 +9,7 @@ import (
 	"runtime"
 	"syscall"
 
-	"github.com/getlantern/systray"
+	"fyne.io/systray"
 	"github.com/kirsle/configdir"
 	"github.com/labstack/gommon/log"
 	"github.com/mattn/go-isatty"

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
@@ -8,7 +9,7 @@ import (
 	"slices"
 	"time"
 
-	"github.com/getlantern/systray"
+	"fyne.io/systray"
 	"github.com/k0kubun/pp/v3"
 	"github.com/labstack/gommon/log"
 	"github.com/skratchdot/open-golang/open"
@@ -380,6 +381,12 @@ func (a *SystrayApp) setIcon(icon status_icons.Icon) {
 		log.Errorf("refusing to set an empty tray icon")
 		return
 	}
+	// Layer changes often resolve to the same icon. Avoid rebuilding its native
+	// image unless the bytes or the macOS template rendering mode changed.
+	if icon.IsTemplate == a.currentIcon.IsTemplate && bytes.Equal(icon.Data, a.currentIcon.Data) {
+		return
+	}
+	log.Debugf("Updating tray icon (template=%t)", icon.IsTemplate)
 	a.currentIcon = icon
 	if icon.IsTemplate {
 		systray.SetTemplateIcon(icon.Data, icon.Data)
